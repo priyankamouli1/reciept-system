@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="text-center mt-5 mb-4">Recipes</h2>
+<div class="container">
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="position-relative">
+          <img
+            src="../{{ recipe.image_url }}"
+            class="card-img-top"
+            alt="{{ recipe.title }}"
+          />
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ recipe.title }}</h3>
+          <h4>Ingredients:</h4>
+          <p class="card-text">{{ recipe.ingredients }}</p>
+          <p>
+            <strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes
+          </p>
+          <p><strong>Category:</strong> {{ recipe.category }}</p>
+          <div class="rating">
+            {% set avg_rating = rating_dict.get(recipe.id, 0) %} {% for i in
+            range(1, 6) %} {% if i <= avg_rating %}
+            <i class="fa-solid fa-star"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %} {% endfor %}
+          </div>
+          <a href="/recipes/{{ recipe.id }}" class="btn btn-primary mt-3 w-75"
+            >Know More</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="create-content">
+  <button class="create-button">
+    <a href="/create_recipe"><i class="bx bx-plus"></i></a>
+  </button>
+  <span class="create-message"></span>
+</div>
+{% endblock %}

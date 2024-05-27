@@ -1,0 +1,92 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-center mt-5 mb-2">Let's Make a New Recipe!!</h1>
+<div class="container card mb-5">
+  <form
+    method="post"
+    id="myForm"
+    action="/create_recipe"
+    enctype="multipart/form-data"
+  >
+    <div class="form-group mt-2">
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        name="title"
+        class="form-control"
+        placeholder="Title"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="ingredients">Ingredients:</label>
+      <input
+        type="text"
+        name="ingredients"
+        class="form-control"
+        placeholder="Ingredients"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select class="form-control" name="category" id="category">
+        <option value="main course">Main Course</option>
+        <option value="starter">Starter</option>
+        <option value="dessert">Dessert</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="preparation_steps">Preparation Steps</label>
+      <textarea
+        class="form-control"
+        id="preparation_steps"
+        name="preparation_steps"
+        rows="3"
+        placeholder="E.g. 1. Fill up the kettle with water...
+      2. Boil the water."
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="cookingTime">Cooking Time:</label>
+      <input
+        type="number"
+        name="cookingTime"
+        class="form-control"
+        placeholder="Cooking Time (In minutes)"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="servingsize">Serving Size</label>
+      <input
+        type="number"
+        name="servingsize"
+        class="form-control"
+        placeholder="Serving Size"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Desciption</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"
+        placeholder="Decribe about you recipe"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="image" class="image-label">Upload your Recipe Image</label>
+      <input type="file" name="image" accept="image/*" required />
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary w-50 mb-4">Submit</button>
+    </div>
+  </form>
+</div>
+<script>
+  var filter_search = document.getElementById("filter-search");
+  filter_search.style.display = "none";
+</script>
+{% endblock %}

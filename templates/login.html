@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Login | Register</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <div class="alert">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <strong id="message">{{ message }}</strong>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <div class="form-container">
+      <div class="col col-1">
+        <div class="image-layer">
+          <img src="../static/images/coin.png" class="form-image coin" />
+          <img src="../static/images/chef.png" clasRs="form-image chef" />
+          <img src="../static/images/stars.png" class="form-image stars" />
+        </div>
+        <p class="featured-words">
+          <span>Unlock the Flavor: </span>Where Every Recipe Tells a Story
+        </p>
+      </div>
+      <div class="col col-2">
+        <div class="btn-box">
+          <button class="btn btn-1" id="login">Sign In</button>
+          <button class="btn btn-2" id="register">Sign Up</button>
+        </div>
+        <form method="post" action="/login">
+          <div class="login-form">
+            <div class="form-title">
+              <span>Sign In</span>
+            </div>
+            <div class="form-inputs">
+              <div class="input-box">
+                <input
+                  name="username"
+                  type="text"
+                  class="input-field"
+                  placeholder="Username"
+                  required
+                />
+                <i class="bx bx-user icon"></i>
+              </div>
+              <div class="input-box">
+                <input
+                  name="password"
+                  type="password"
+                  class="input-field"
+                  placeholder="Password"
+                  required
+                />
+                <i class="bx bx-lock-alt icon"></i>
+              </div>
+              <div class="input-box">
+                <button type="submit" class="input-submit">
+                  <span>Sign In</span>
+                  <i class="bx bx-right-arrow-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form method="post" action="/register">
+          <div class="register-form">
+            <div class="form-title">
+              <span>Create Account</span>
+            </div>
+            <div class="form-inputs">
+              <div class="input-box">
+                <input
+                  name="email"
+                  type="email"
+                  class="input-field"
+                  placeholder="Email"
+                  required
+                />
+                <i class="bx bx-envelope icon"></i>
+              </div>
+              <div class="input-box">
+                <input
+                  name="username"
+                  type="text"
+                  class="input-field"
+                  placeholder="Username"
+                  required
+                />
+                <i class="bx bx-user icon"></i>
+              </div>
+              <div class="input-box">
+                <input
+                  name="password"
+                  type="password"
+                  class="input-field"
+                  placeholder="Password"
+                  required
+                />
+                <i class="bx bx-lock-alt icon"></i>
+              </div>
+              <div class="input-box">
+                <button class="input-submit">
+                  <span>Sign In</span>
+                  <i class="bx bx-right-arrow-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const alertBox = document.querySelector(".alert");
+        const messages = document.getElementById("message").textContent;
+        if (messages.length > 0) {
+          alertBox.style.display = "block";
+          setTimeout(function () {
+            alertBox.style.display = "none";
+          }, 2000);
+        }
+      });
+    </script>
+  </body>
+</html>

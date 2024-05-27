@@ -1,0 +1,83 @@
+/* ======== Create Button ======== */
+
+.create-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .create-button {
+    position: fixed;
+    bottom: 55px;
+    right: 90px;
+    background-color: #d5cb3d;
+    border-radius: 50%;
+    border: none;
+    outline: 0.2rem solid transparent;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    animation: moveBubble 2s infinite alternate;
+  }
+  
+  @keyframes moveBubble {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .create-button:hover {
+    outline-color: rgb(206, 249, 252);
+    background-color: #c0b635;
+  }
+  
+  .create-button i {
+    font-size: 2rem;
+    color: rgb(206, 249, 252);
+  }
+  
+  .create-message {
+    position: fixed;
+    bottom: 80px; /* Adjust as needed */
+    right: -5px;
+    transform: translateX(-10%);
+    background: url(../images/cloud.png);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    height: 170px;
+    color: black;
+    width: 180px;
+    font-size: 15px;
+    animation: moveMessage 2s infinite alternate;
+  }
+  .msg {
+    width: 120px;
+    padding-top: 45px;
+    padding-left: 35px;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+  }
+  @keyframes moveMessage {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }

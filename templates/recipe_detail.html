@@ -1,0 +1,106 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="text-center mt-5 mb-4">{{ recipe.title }}</h2>
+<div class="container">
+  <div class="row no-gutters">
+    <div class="col-md-5">
+      <img
+        src="../{{ recipe.image_url }}"
+        class="card-img-top"
+        alt="{{ recipe.title }}"
+        style="border-radius: 10%"
+      />
+    </div>
+    <div class="col-md-6 ml-5">
+      <div
+        class="scrollable-content"
+        style="max-height: 400px; overflow-y: auto"
+      >
+        <p class="card-text">{{ recipe.description }}</p>
+        <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+        <p><strong>Serving people:</strong> {{ recipe.serving_size }}</p>
+        <p><strong>Category:</strong> {{ recipe.category }}</p>
+        <div class="rating">
+          {% set avg_rating = rating_dict.get(recipe.id, 0) %} {% for i in
+          range(1, 6) %} {% if i <= avg_rating %}
+          <i class="fa-solid fa-star"></i>
+          {% else %}
+          <i class="fa-regular fa-star"></i>
+          {% endif %} {% endfor %}
+        </div>
+        <br />
+        <p><strong>Post By: </strong>{{ recipe.author }}</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card-body">
+        <h4>Ingredients:</h4>
+        <p class="card-text">{{ recipe.ingredients }}</p>
+        <h4>Preparation Steps:</h4>
+        <ol>
+          {% for step in preparation_steps %}
+          <li>{{ step }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  {% if reviews %}
+  <h2 class="text-center mb-4">Reviews</h2>
+  <div class="row">
+    {% for review in reviews %}
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ review.username }}</h5>
+          <p class="card-text">{{ review.review }}</p>
+          <div class="rating">
+            {% for _ in range(5) %} {% if loop.index <= review.rating %}
+            <i class="fa-solid fa-star"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %} {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+<div class="container mt-5 mb-5">
+  <h2 class="text-center mb-4">Add Your Review</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form
+        action="{{ url_for('post_review', recipe_id=recipe.id) }}"
+        method="post"
+      >
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <select class="form-control" id="rating" name="rating" required>
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="content">Your Review</label>
+          <textarea
+            class="form-control"
+            id="content"
+            rows="3"
+            name="review"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

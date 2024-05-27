@@ -1,0 +1,154 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="text-center mt-5 mb-4">Your Recipes</h2>
+<div class="container">
+  <div class="row">
+    {% for recipe in user_recipes %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img
+          src="../{{ recipe.image_url }}"
+          class="card-img-top"
+          alt="{{ recipe.title }}"
+        />
+        <div class="card-body">
+          <h3 class="card-title">{{ recipe.title }}</h3>
+          <h4>Ingredients:</h4>
+          <p class="card-text">{{ recipe.ingredients }}</p>
+          <p>
+            <strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes
+          </p>
+          <p><strong>Category:</strong> {{ recipe.category }}</p>
+          <div class="rating">
+            {% set avg_rating = rating_dict.get(recipe.id, 0) %} {% for i in
+            range(1, 6) %} {% if i <= avg_rating %}
+            <i class="fa-solid fa-star"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %} {% endfor %}
+            <a href="#" class="ml-5 btn btn-success" data-toggle="modal" data-target="#editRecipeModal" data-id="{{ recipe.id }}">
+              <i class="fa-solid fa-pen"></i>
+            </a>
+            <div class="modal fade" id="editRecipeModal" tabindex="-1" role="dialog" aria-labelledby="editRecipeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editRecipeModalLabel">Edit Recipe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="editRecipeForm">
+                      <input type="hidden" id="recipeId" name="recipe_id">
+                      <div class="form-group mt-2">
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="Title" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="ingredients">Ingredients:</label>
+                        <input type="text" id="ingredients" name="ingredients" class="form-control" placeholder="Ingredients" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="category">Category</label>
+                        <select class="form-control" name="category" id="category">
+                          <option value="main course">Main Course</option>
+                          <option value="starter">Starter</option>
+                          <option value="dessert">Dessert</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="preparation_steps">Preparation Steps</label>
+                        <textarea class="form-control" id="preparation_steps" name="preparation_steps" rows="3" placeholder="E.g. 1. Fill up the kettle with water...
+                        2. Boil the water."></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="cookingTime">Cooking Time:</label>
+                        <input type="number" name="cookingTime" id="cookingTime" class="form-control" placeholder="Cooking Time (In minutes)" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="servingsize">Serving Size</label>
+                        <input type="number" name="servingsize" id="servingsize" class="form-control" placeholder="Serving Size" required />
+                      </div>
+                      <div class="form-group">
+                        <label for="description">Desciption</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Decribe about you recipe"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="image" class="image-label">Upload your Recipe Image</label>
+                        <input id="image_url" type="file" name="image" accept="image/*" required>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveChanges()">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form
+              action="/delete_recipe/{{ recipe.id }}"
+              method="post"
+              class="d-inline"
+            >
+              <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $('#editRecipeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var recipeId = button.data('id');
+            $.ajax({
+                url: '/get_recipe/' + recipeId,
+                method: 'GET',
+                success: function(data) {
+                    $('#editRecipeModal #recipeId').val(data.id);
+                    $('#editRecipeModal #title').val(data.name);
+                    $('#editRecipeModal #ingredients').val(data.ingredients);
+                    $('#editRecipeModal #category').val(data.category);
+                    $('#editRecipeModal #preparation_steps').val(data.preparation_steps);
+                    $('#editRecipeModal #cookingTime').val(data.cookingTime);
+                    $('#editRecipeModal #servingsize').val(data.servingsize);
+                    $('#editRecipeModal #description').val(data.description);
+                },
+                error: function(error) {
+                    console.error('Error fetching recipe data:', error);
+                }
+            });
+        });
+    });
+    function saveChanges() {
+    var form = $('#editRecipeForm')[0];
+    var formData = new FormData(form);
+    $.ajax({
+        url: '/update_recipe',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log('Recipe updated successfully:');
+            location.reload();
+            $('#editRecipeModal').modal('hide');
+        },
+        error: function(error) {
+            console.error('Error updating recipe:', error);
+        }
+    });
+}
+</script>
+{% endblock %}

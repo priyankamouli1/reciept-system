@@ -1,0 +1,114 @@
+flask --app main run
+flask run --host=0.0.0.0
+
+    sample_recipes = [
+        Recipe(
+            title="Spaghetti Carbonara",
+            description="A classic Italian pasta dish.",
+            ingredients="Spaghetti, eggs, pancetta, Parmesan cheese, black pepper",
+            preparation_steps="1. Cook spaghetti. 2. Fry pancetta. 3. Mix eggs and cheese. 4. Combine all with pepper.",
+            cooking_time=20,
+            serving_size=4, image_url="static/images/Spaghetti Carbonara.jpg",
+            category="main course"
+        ),
+        Recipe(
+            title="Chicken Curry",
+            description="A spicy and flavorful chicken curry.",
+            ingredients="Chicken, onions, tomatoes, garlic, ginger, spices",
+            preparation_steps="1. Sauté onions, garlic, and ginger. 2. Add spices and tomatoes. 3. Cook chicken in sauce.",
+            cooking_time=45,
+            serving_size=6, image_url="static/images/Chicken Curry.jpg",
+            category="main course"
+        ),
+        Recipe(
+            title="Vegetable Stir Fry",
+            description="A quick and healthy vegetable stir fry.",
+            ingredients="Bell peppers, broccoli, carrots, soy sauce, garlic, ginger",
+            preparation_steps="1. Stir fry vegetables with garlic and ginger. 2. Add soy sauce. 3. Serve hot.",
+            cooking_time=15,
+            serving_size=2, image_url="static/images/vegetable_stir_fry.jpg",
+            category="main course"
+        ),
+        Recipe(
+            title="Beef Tacos",
+            description="Delicious beef tacos with fresh toppings.",
+            ingredients="Ground beef, taco seasoning, tortillas, lettuce, cheese, salsa",
+            preparation_steps="1. Cook beef with seasoning. 2. Assemble tacos with toppings.",
+            cooking_time=30,
+            serving_size=4, image_url="static/images/Beef-Tacos-.jpg",
+            category="starter"
+        ),
+        Recipe(
+            title="Pancakes",
+            description="Fluffy homemade pancakes.",
+            ingredients="Flour, milk, eggs, baking powder, sugar, butter",
+            preparation_steps="1. Mix dry and wet ingredients separately. 2. Combine and cook on griddle.",
+            cooking_time=20,
+            serving_size=4, image_url="static/images/Pancake.jpg",
+            category="starter"
+        ),
+        Recipe(
+            title="Caesar Salad",
+            description="A classic Caesar salad.",
+            ingredients="Romaine lettuce, Caesar dressing, croutons, Parmesan cheese",
+            preparation_steps="1. Toss lettuce with dressing. 2. Add croutons and cheese.",
+            cooking_time=10,
+            serving_size=2, image_url="static/images/Caesar-Salad.jpg",
+            category="dessert"
+        ),
+        Recipe(
+            title="Chocolate Cake",
+            description="Rich and moist chocolate cake.",
+            ingredients="Flour, cocoa powder, sugar, eggs, butter, baking powder",
+            preparation_steps="1. Mix dry and wet ingredients separately. 2. Combine and bake.",
+            cooking_time=60,
+            serving_size=8, image_url="static/images/chocolate-cake.jpg",
+            category="dessert"
+        ),
+        Recipe(
+            title="Grilled Salmon",
+            description="Perfectly grilled salmon with a lemon butter sauce.",
+            ingredients="Salmon fillets, lemon, butter, garlic, herbs",
+            preparation_steps="1. Season salmon. 2. Grill and baste with lemon butter sauce.",
+            cooking_time=25,
+            serving_size=4, image_url="static/images/grilled-salmon.jpg",
+            category="main course"
+        ),
+        Recipe(
+            title="Margarita Pizza",
+            description="Classic pizza with tomato, mozzarella, and basil.",
+            ingredients="Pizza dough, tomato sauce, mozzarella, basil",
+            preparation_steps="1. Spread sauce on dough. 2. Add cheese and basil. 3. Bake.",
+            cooking_time=20,
+            serving_size=2, image_url="static/images/margherita-pizza.jpg",
+            category="main course"
+        ),
+        Recipe(
+            title="Minestrone Soup",
+            description="Hearty Italian vegetable soup.",
+            ingredients="Mixed vegetables, beans, pasta, tomatoes, broth",
+            preparation_steps="1. Cook vegetables in broth. 2. Add beans and pasta. 3. Simmer until done.",
+            cooking_time=40,
+            serving_size=6, image_url="static/images/Minestrone-Soup.jpg",
+            category="starter"
+        )
+    ]
+    db.session.bulk_save_objects(sample_recipes)
+    db.session.commit()
+    reviews_data = [
+    {'review': 'Great recipe, loved it!', 'username': 'gowri', 'recipe_id': 1, 'user_id': 1,'rating':5},
+    {'review': 'Delicious! Will make again.', 'username': 'gowri', 'recipe_id': 2, 'user_id': 1,'rating':3},
+    {'review': 'Easy to follow, turned out perfectly.', 'username': 'gowri', 'recipe_id': 1, 'user_id': 1,'rating':4},
+    {'review': 'Not a fan, too salty for my taste.', 'username': 'gowri', 'recipe_id': 3, 'user_id': 1,'rating':5},
+    {'review': 'Family favorite, a go-to recipe.', 'username': 'gowri', 'recipe_id': 2, 'user_id': 1,'rating':3},
+    {'review': 'Healthy and tasty, highly recommend.', 'username': 'gowri', 'recipe_id': 1, 'user_id': 1,'rating':5},
+    {'review': 'Could use more seasoning, but otherwise good.', 'username': 'gowri', 'recipe_id': 2, 'user_id': 1,'rating':3},
+    {'review': 'Quick and simple, great for weeknights.', 'username': 'gowri', 'recipe_id': 3, 'user_id': 1,'rating':4},
+    {'review': 'Best recipe I\'ve tried in a while!', 'username': 'gowri', 'recipe_id': 1, 'user_id': 1,'rating':5},
+    {'review': 'Didn\'t turn out as expected, disappointed.', 'username': 'gowri', 'recipe_id': 2, 'user_id': 1,'rating':2}
+    ]
+
+    for data in reviews_data:
+        review = Review(**data)
+        db.session.add(review)
+    db.session.commit()
